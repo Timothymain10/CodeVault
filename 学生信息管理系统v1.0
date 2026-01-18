@@ -1,0 +1,102 @@
+#include <stdio.h> 
+
+struct Student{
+	int id;
+	char name[10];
+	int score_1;
+	int score_2;
+	int score_3;
+	float aver;
+}; 
+
+void showAllStudents(struct Student *a);
+void addStudent(struct Student *a);
+void findStudentById(struct Student *a);
+int total = 0;
+
+int main(){
+	struct Student student[100];
+	while(1){
+	printf("===========学生信息管理系统v1.0==========\n\n");
+	printf("         *查询所有学生信息* 请输入1\n");
+    printf("           *增加学生信息*   请输入2\n"); 
+    printf("          *按学号查询学生*  请输入3\n");
+	printf("                *退出*      请输入0\n");  
+    printf("	***Code by Jiayi***\n");
+    printf("请输入数字：");
+	int n = 0;
+	scanf("%d", &n); 
+	switch(n){
+		case 1: showAllStudents(student); 
+				printf("\n");
+				break;
+		case 2: addStudent(student); 
+				printf("\n");
+				break;
+		case 3: findStudentById(student);
+				printf("\n"); 
+				break;
+		case 0: printf("感谢您的使用，再见！***Code by Jiayi"); 
+				return 0; 
+		default:printf("未找到相应功能，请核对后重新输入\n"); 
+				break;
+	}
+}
+}
+void showAllStudents(struct Student *a){
+	int i;
+	if( total == 0 ){
+		printf("暂时还没有信息哦~\n");
+		return; 
+	}
+	for( i = 0; i < total; i++){
+	printf("%d ",a[i].id);
+	printf("%s ",a[i].name);
+	printf("%d ",a[i].score_1);
+	printf("%d ",a[i].score_2);
+	printf("%d ",a[i].score_3);
+	printf("%.2f\n",a[i].aver);
+	}
+	printf("以上为全部学生信息！\n");
+}
+void addStudent(struct Student *a){
+	int i = total, j;
+	do{
+	printf("请输入添加学生数量：");
+	scanf("%d",&j); 
+	if( j <= 0 ){
+		printf("学生数量必须是大于0的正整数！\n"); 
+	}
+	}while( j <= 0 );
+	printf("请输入学生信息：\n示例：学号 姓名 分数1 分数2 分数3\n"); 
+	do
+{
+	scanf("%d",&a[i].id);
+	scanf("%s",a[i].name);
+	scanf("%d",&a[i].score_1);
+	scanf("%d",&a[i].score_2);
+	scanf("%d",&a[i].score_3);
+	a[i].aver = ( a[i].score_1 + a[i].score_2 + a[i].score_3 ) / 3.0;
+	i++;
+}while(i < total+j);
+	total += j;
+}
+void findStudentById(struct Student *a){
+	int id = 0;
+	printf("请输入学号，以回车键结束：");
+	scanf("%d", &id);
+	int i;
+	for(i = 0; i < total; i++){
+		if( id == a[i].id ){
+			printf("以下为您所查找的学生信息");
+			printf("学号：%d\n",a[i].id);
+			printf("姓名：%s\n",a[i].name);
+			printf("成绩1：%d\n",a[i].score_1);
+			printf("成绩2：%d\n",a[i].score_2);
+			printf("成绩3：%d\n",a[i].score_3);
+			printf("平均分：%.2f\n",a[i].aver);
+			return;
+		}
+	}
+	printf("未找到您所查找的学生信息，请核对后重新查询\n"); 
+}
